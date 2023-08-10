@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { useRouter } from "next/router";
 
 type FilterProps = {
   manufacturer: string;
@@ -46,3 +47,35 @@ export const calculateCarRent = (city_mpg: number, year: number) => {
 
   return rentalRatePerDay.toFixed(0);
 };
+
+export const updateSearchParams = (type: string, value: string) => {
+  const searchParams = new URLSearchParams(window.location.search);
+
+  searchParams.set(type, value);
+
+  const newPathName = `${window.location.pathname}?${searchParams.toString()}`;
+
+  return newPathName;
+};
+
+// export const resetFilters = () => {
+//   const router = useRouter();
+//   const { query } = router;
+
+//   // Function to remove filters and reset URL
+//   const resetFilters = () => {
+//     // Modify the query object to remove filter parameters
+//     const newQuery = {
+//       ...query,
+//       manufacturer: undefined,
+//       year: undefined,
+//       fuel: undefined,
+//       limit: undefined,
+//       model: undefined,
+//       // Remove other filter parameters as needed
+//     };
+
+//     // Replace the current URL with the updated query parameters
+//     router.push({ pathname: router.pathname, query: newQuery });
+//   };
+// };
