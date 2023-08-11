@@ -95,7 +95,7 @@ body {
 }
 
 .home__filters {
-  @apply mt-12 w-full flex-between items-center flex-wrap gap-5;
+  @apply mt-12 w-full flex-between items-center flex-col xl:flex-row flex-wrap gap-5;
 }
 
 .home__filter-container {

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Listbox, Transition } from "@headlessui/react";
 import { updateSearchParams } from "@/utils";
 
@@ -18,6 +18,8 @@ interface CustomFilterProps {
 
 const CustomFilter = ({ title, options }: CustomFilterProps) => {
   const router = useRouter();
+  const searchQuery = useSearchParams();
+
   const [selected, setSelected] = useState(options[0]);
 
   const handleUpdatePrams = (e: { title: string; value: string }) => {
@@ -25,6 +27,12 @@ const CustomFilter = ({ title, options }: CustomFilterProps) => {
 
     router.push(newPath, { scroll: false });
   };
+
+  useEffect(() => {
+    if (!searchQuery.has("year") && !searchQuery.has("fuel")) {
+      setSelected(options[0]);
+    }
+  }, [searchQuery]);
 
   return (
     <div className="w-fit">

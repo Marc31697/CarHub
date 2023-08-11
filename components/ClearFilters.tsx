@@ -3,9 +3,14 @@
 import { CustomButton } from ".";
 import { useRouter } from "next/navigation";
 
-const ClearFilters = () => {
+interface ClearFiltersProps {
+  resetMakeAndModel: () => void;
+}
+
+const ClearFilters = ({ resetMakeAndModel }: ClearFiltersProps) => {
   const router = useRouter();
   const handleClearFilters = () => {
+    resetMakeAndModel();
     router.push("/", { scroll: false });
   };
 

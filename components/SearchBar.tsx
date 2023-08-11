@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { SearchManufacturer } from ".";
+import { ClearFilters, CustomFilter, SearchManufacturer } from ".";
+import { fuels, yearsOfProduction } from "@/constants";
 
 const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
   <button type="submit" className={`-ml-3 z-10 ${otherClasses}`}>
@@ -19,6 +20,7 @@ const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
 const SearchBar = () => {
   const [manufacturer, setManufacturer] = useState("");
   const [model, setModel] = useState("");
+
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,35 +55,49 @@ const SearchBar = () => {
     router.push(newPathName, { scroll: false });
   };
 
+  const resetMakeAndModel = () => {
+    setManufacturer("");
+    setModel("");
+  };
+
   return (
-    <form className="searchbar" onSubmit={handleSearch}>
-      <div className="searchbar__item">
-        <SearchManufacturer
-          manufacturer={manufacturer}
-          setManufacturer={setManufacturer}
-        />
-        <SearchButton otherClasses="sm:hidden" />
-        <div className="searchbar__item">
-          <Image
-            src="/model-icon.png"
-            width={25}
-            height={25}
-            className="absolute w-[20px] h-[20px] ml-4"
-            alt="car model"
-          />
-          <input
-            type="text"
-            name="model"
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
-            placeholder="A4"
-            className="searchbar__input"
-          />
-          <SearchButton otherClasses="sm:hidden" />
+    <div className="items-center flex flex-col">
+      <div className="home__filters">
+        <form className="searchbar" onSubmit={handleSearch}>
+          <div className="searchbar__item">
+            <SearchManufacturer
+              manufacturer={manufacturer}
+              setManufacturer={setManufacturer}
+            />
+            <SearchButton otherClasses="sm:hidden" />
+            <div className="searchbar__item">
+              <Image
+                src="/model-icon.png"
+                width={25}
+                height={25}
+                className="absolute w-[20px] h-[20px] ml-4"
+                alt="car model"
+              />
+              <input
+                type="text"
+                name="model"
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+                placeholder="A4"
+                className="searchbar__input"
+              />
+              <SearchButton otherClasses="sm:hidden" />
+            </div>
+            <SearchButton otherClasses="max-sm:hidden" />
+          </div>
+        </form>
+        <div className="home__filter-container">
+          <CustomFilter title="fuel" options={fuels} />
+          <CustomFilter title="year" options={yearsOfProduction} />
         </div>
-        <SearchButton otherClasses="max-sm:hidden" />
       </div>
-    </form>
+      <ClearFilters resetMakeAndModel={resetMakeAndModel} />
+    </div>
   );
 };
 
